@@ -7,7 +7,7 @@ $directory\
 [](fg:#88c0d0 bg:#054e98)\
 $git_branch\
 $git_status\
-[](fg:#054e98 bg:#86BBD8)\
+[](fg:#054e98)\
 $fill\
 $c\
 $elixir\
