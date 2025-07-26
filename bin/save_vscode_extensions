@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "Saving VSCode extensions..."
+mkdir -p ../vscode/.config
+code --list-extensions > ../vscode/.config/extensions
