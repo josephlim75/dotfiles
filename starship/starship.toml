@@ -8,6 +8,7 @@ $directory\
 $git_branch\
 $git_status\
 [](fg:#054e98 bg:#86BBD8)\
+$fill\
 $c\
 $elixir\
 $elm\
