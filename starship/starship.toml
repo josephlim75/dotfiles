@@ -7,7 +7,7 @@ $directory\
 [](fg:#88c0d0 bg:#054e98)\
 $git_branch\
 $git_status\
-[](fg:#e33105 bg:#e33105)\
+[](fg:#e33105 bg:#054e98)\
 $c\
 $elixir\
 $elm\
@@ -67,11 +67,11 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-style = "bg:#FCA17D"
+style = "bg:#054e98"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:#FCA17D"
+style = "bg:#054e98"
 format = '[$all_status$ahead_behind ]($style)'
 
 [c]
