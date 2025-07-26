@@ -30,6 +30,9 @@ $character"""
 
 #[](fg:#33658A)\
 
+[fill]
+symbol = ' '
+
 # Disable the blank line at the start of the prompt
 # add_newline = false
 
