@@ -35,8 +35,8 @@ $character"""
 # and use the os module below
 [username]
 show_always = true
-style_user = "fg:#b6c6d6 bg:#5e81ac"
-style_root = "fg:#b6c6d6 bg:#5e81ac"
+style_user = "fg:#e4eff5 bg:#5e81ac"
+style_root = "fg:#e4eff5 bg:#5e81ac"
 format = '[$user ]($style)'
 disabled = false
 
