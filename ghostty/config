@@ -1,0 +1,5 @@
+theme = "nord"
+keybind=super+kp_add=increase_font_size:1
+font-size=20
+window-height=30
+window-width=110
