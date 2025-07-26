@@ -1,5 +1,5 @@
 format = """
-(#5e81ac)\
+(bg:#5e81ac fg:#e4eff5)\
 $os\
 $username\
 [](bg:#88c0d0 fg:#5e81ac)\
@@ -43,7 +43,7 @@ disabled = false
 # An alternative to the username module which displays a symbol that
 # represents the current operating system
 [os]
-style = "bg:#5e81ac"
+style = "fg:#e4eff5 bg:#5e81ac"
 disabled = true # Disabled by default
 
 [directory]
