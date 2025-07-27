@@ -5,5 +5,5 @@
 # touch a file name BCompare , and chmod a+ux BCompare : touch  BCompare && chmod a+ux BCompare
 # open BCompare with text editor, insert the script :
 
-rm "/Users/$(whoami)/Library/Application Support/Beyond Compare/registry.dat"
-"`dirname "$0"`"/BCompare.exe $@
+rm "/Users/$(whoami)/Library/Application Support/Beyond Compare 5/registry.dat" ||true
+"`dirname "$0"`"/BCompare.bin $@
