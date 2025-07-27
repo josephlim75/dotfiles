@@ -12,8 +12,10 @@ ${custom.directory_separator_not_git}\
 ${custom.directory_separator_git}\
 ${custom.directory_separator_git_changes}\
 (\
-$git_branch\
-$git_status\
+${custom.git_branch_committed}\
+${custom.git_status_committed}\
+${custom.git_branch_dirty}\
+${custom.git_status_dirty}\
 [](fg:#054e98)\
 )\
 $fill\
@@ -42,22 +44,22 @@ description = "Output a styled separator right after the directory when inside a
 command = ""
 format = "[](fg:#88c0d0 bg:#054e98)"
 # Only when inside git repository
-when = "git rev-parse --is-inside-work-tree >/dev/null 2>&1"
+when = 'test "$(git_status)" = "committed"'
 
 # Output a styled separator right after the directory when inside a git repository.
 [custom.directory_separator_git_changes]
 command = ""
-format = "[](fg:#88c0d0 bg: #fca1acff)"
+format = "[](fg:#88c0d0 bg:#DA627D)"
 # Only when inside git repository
-when = "git status --porcelain | grep . > /dev/null 2>&1"
+when = 'test "$(git_status)" = "dirty"'
 
-# Output a styled separator right after the directory when NOT inside a git repository.
+# Output a styled separatoright after the directory when NOT inside a git repository.
 [custom.directory_separator_not_git]
 description = "Output a styled separator right after the directory when NOT inside a git repository."
 command = ""
 format = "[](fg:#88c0d0)"
 # Only when NOT inside a git repository
-when = "! git rev-parse --is-inside-work-tree > /dev/null 2>&1"
+when = 'test "$(git_status)" = "none"'
 
 # Fill character (empty space) between the left and right prompt
 [fill]
@@ -100,14 +102,27 @@ truncation_symbol = "…/"
 # So either put "Important Documents" before "Documents" or use the substituted version:
 # "Important 󰈙 " = " 󰈙 "
 
-[git_branch]
+[custom.git_branch_committed]
 symbol = ""
 style = "bg:#054e98"
 format = '[ $symbol $branch ]($style)'
+when = 'test "$(git_status)" = "committed"'
 
-[git_status]
+[custom.git_status_committed]
 style = "bg:#054e98"
 format = '[$all_status$ahead_behind ]($style)'
+when = 'test "$(git_status)" = "committed"'
+
+[custom.git_branch_dirty]
+symbol = ""
+style = "bg:#DA627D"
+format = '[ $symbol $branch ]($style)'
+when = 'test "$(git_status)" = "dirty"'
+
+[custom.git_status_dirty]
+style = "bg:#DA627D"
+format = '[$all_status$ahead_behind ]($style)'
+when = 'test "$(git_status)" = "dirty"'
 
 [c]
 symbol = " "
