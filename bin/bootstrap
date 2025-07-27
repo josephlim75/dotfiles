@@ -2,3 +2,7 @@
 
 ln -sf $HOME/dotfiles/ghostty $HOME/.config/ghostty
 ln -sf $HOME/dotfiles/starship $HOME/.config/starship
+
+# TODO beyond compare
+# rename BCompare BCompare.exe
+# ln -sf $HOME/.dotfiles/bcompare/BCompare /Application/Beyond Compare.app/Content/MacOS

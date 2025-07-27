@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# open Terminal, go to the dir : cd /Applications/Beyond Compare.app/Contents/MacOS
+# change the name BCompare to BCompare.exe: mv BCompare BCompare.exe
+# touch a file name BCompare , and chmod a+ux BCompare : touch  BCompare && chmod a+ux BCompare
+# open BCompare with text editor, insert the script :
+
+rm "/Users/$(whoami)/Library/Application Support/Beyond Compare/registry.dat"
+"`dirname "$0"`"/BCompare.exe $@

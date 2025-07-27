@@ -6,8 +6,8 @@ The fonts below is required for Visual Studio
 brew install --cask font-hack-nerd-font
 ```
 
-
 ```
+ln -sf BCompare /Applications/Beyond\ Compare.app/Contents/MacOS
 ln -sf $HOME/.dotfiles/ghostty $HOME/.config/ghostty
 ln -sf $HOME/.dotfiles/starship $HOME/.config/starship
 ```
