@@ -1,12 +1,16 @@
+#
+# Hack Nerd Font characters
+#  
+#
 format = """
 (bg:#5e81ac fg:#e4eff5)\
 $os\
 $username\
 [](bg:#88c0d0 fg:#5e81ac)\
 $directory\
-[](fg:#88c0d0)\
+${custom.directory_separator_not_git}\
+${custom.directory_separator_git}\
 (\
-[](fg:#88c0d0 bg:#054e98)\
 $git_branch\
 $git_status\
 [](fg:#054e98)\
@@ -31,8 +35,23 @@ $time\
 $line_break\
 $character"""
 
-#[](fg:#33658A)\
+# Output a styled separator right after the directory when inside a git repository.
+[custom.directory_separator_git]
+description = "Output a styled separator right after the directory when inside a git repository."
+command = ""
+format = "[](fg:#88c0d0 bg:#054e98)"
+# Only when inside git repository
+when = "git rev-parse --is-inside-work-tree >/dev/null 2>&1"
 
+# Output a styled separator right after the directory when NOT inside a git repository.
+[custom.directory_separator_not_git]
+description = "Output a styled separator right after the directory when NOT inside a git repository."
+command = ""
+format = "[](fg:#054e98)"
+# Only when NOT inside a git repository
+when = "! git rev-parse --is-inside-work-tree > /dev/null 2>&1"
+
+# Fill character (empty space) between the left and right prompt
 [fill]
 symbol = ' '
 
