@@ -19,6 +19,7 @@ ${custom.git_separator_committed}\
 ${custom.git_separator_dirty}\
 )\
 $fill\
+(\
 $c\
 $elixir\
 $elm\
@@ -32,6 +33,9 @@ $nim\
 $rust\
 $scala\
 $docker_context\
+[](bg:#88c0d0 fg:#5e81ac)\
+)\
+[](fg:#33658A)\
 $time\
 $line_break\
 $character"""
@@ -141,5 +145,5 @@ when = 'test "$(git_status)" = "dirty"'
 [time]
 disabled = false
 time_format = "%R" # Hour:Minute Format
-#style = "bg:#33658A"
-format = '$time'
+style = "bg:#33658A"
+format = '[ $time ]($style)'
