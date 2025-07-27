@@ -8,8 +8,8 @@ brew install --cask font-hack-nerd-font
 
 
 ```
-ln -sf $HOME/dotfiles/ghostty $HOME/.config/ghostty
-ln -sf $HOME/dotfiles/starship $HOME/.config/starship
+ln -sf $HOME/.dotfiles/ghostty $HOME/.config/ghostty
+ln -sf $HOME/.dotfiles/starship $HOME/.config/starship
 ```
 
 # References
