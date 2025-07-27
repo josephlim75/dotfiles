@@ -13,11 +13,11 @@ ${custom.directory_separator_git}\
 ${custom.directory_separator_git_changes}\
 (\
 ${custom.git_branch_committed}\
-${custom.git_status_committed}\
 ${custom.git_branch_dirty}\
-${custom.git_status_dirty}\
-[](fg:#054e98)\
+${custom.git_separator_committed}\
+${custom.git_separator_dirty}\
 )\
+$git_status\
 $fill\
 $c\
 $elixir\
@@ -38,18 +38,28 @@ $time\
 $line_break\
 $character"""
 
-# Output a styled separator right after the directory when inside a git repository.
 [custom.directory_separator_git]
-description = "Output a styled separator right after the directory when inside a git repository."
 command = ""
 format = "[](fg:#88c0d0 bg:#054e98)"
 # Only when inside git repository
 when = 'test "$(git_status)" = "committed"'
 
-# Output a styled separator right after the directory when inside a git repository.
 [custom.directory_separator_git_changes]
 command = ""
 format = "[](fg:#88c0d0 bg:#DA627D)"
+# Only when inside git repository
+when = 'test "$(git_status)" = "dirty"'
+
+
+[custom.git_separator_committed]
+command = ""
+format = "[](fg:#054e98)"
+# Only when inside git repository
+when = 'test "$(git_status)" = "committed"'
+
+[custom.git_separator_dirty]
+command = ""
+format = "[](fg:#DA627D)"
 # Only when inside git repository
 when = 'test "$(git_status)" = "dirty"'
 
@@ -103,9 +113,10 @@ truncation_symbol = "…/"
 # "Important 󰈙 " = " 󰈙 "
 
 [custom.git_branch_committed]
+command = "git rev-parse --abbrev-ref HEAD"
 symbol = ""
 style = "bg:#054e98"
-format = '[ $symbol $branch ]($style)'
+format = '[ $symbol $output ]($style)'
 when = 'test "$(git_status)" = "committed"'
 
 [custom.git_status_committed]
@@ -114,9 +125,10 @@ format = '[$all_status$ahead_behind ]($style)'
 when = 'test "$(git_status)" = "committed"'
 
 [custom.git_branch_dirty]
+command = "git rev-parse --abbrev-ref HEAD"
 symbol = ""
 style = "bg:#DA627D"
-format = '[ $symbol $branch ]($style)'
+format = '[ $symbol $output ]($style)'
 when = 'test "$(git_status)" = "dirty"'
 
 [custom.git_status_dirty]
