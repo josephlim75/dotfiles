@@ -1,0 +1,14 @@
+#!/bin/sh
+
+has_changes=$(git status --porcelain 2>/dev/null | grep . > /dev/null && echo true || echo false)
+is_git_repo=$(git rev-parse --is-inside-work-tree > /dev/null 2>&1 && echo true || echo false)
+
+if [ $is_git_repo = true ]; then
+  if [ $has_changes = true ]; then
+    echo "dirty"
+  else
+    echo "committed"
+  fi
+else
+  echo "none"
+fi
