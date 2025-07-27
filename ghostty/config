@@ -1,5 +1,9 @@
 theme = "nord"
 keybind=super+kp_add=increase_font_size:1
-font-size=20
+font-size=15
 window-height=30
 window-width=110
+
+## Clipboard
+clipboard-read = "allow"
+clipboard-paste-protection = false

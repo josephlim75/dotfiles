@@ -14,10 +14,10 @@ ${custom.directory_separator_git_changes}\
 (\
 ${custom.git_branch_committed}\
 ${custom.git_branch_dirty}\
+$git_status\
 ${custom.git_separator_committed}\
 ${custom.git_separator_dirty}\
 )\
-$git_status\
 $fill\
 $c\
 $elixir\
@@ -31,9 +31,7 @@ $nodejs\
 $nim\
 $rust\
 $scala\
-[](fg:#86BBD8)\
 $docker_context\
-[](fg:#33658A bg:#86BBD8)\
 $time\
 $line_break\
 $character"""
@@ -70,6 +68,10 @@ command = ""
 format = "[](fg:#88c0d0)"
 # Only when NOT inside a git repository
 when = 'test "$(git_status)" = "none"'
+
+[git_status]
+style = "bg:#DA627D"
+format = '([$all_status$ahead_behind ]($style))'
 
 # Fill character (empty space) between the left and right prompt
 [fill]
@@ -136,77 +138,8 @@ style = "bg:#DA627D"
 format = '[$all_status$ahead_behind ]($style)'
 when = 'test "$(git_status)" = "dirty"'
 
-[c]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[cpp]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[docker_context]
-symbol = " "
-style = "bg:#06969A"
-format = '[ $symbol $context ]($style)'
-
-[elixir]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[elm]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[golang]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[gradle]
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[haskell]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[java]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[julia]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[nodejs]
-symbol = ""
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[nim]
-symbol = "󰆥 "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[rust]
-symbol = ""
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[scala]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
 [time]
 disabled = false
 time_format = "%R" # Hour:Minute Format
-style = "bg:#33658A"
-format = '[ ♥ $time ]($style)'
+#style = "bg:#33658A"
+format = '$time'
