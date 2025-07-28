@@ -6,3 +6,10 @@ ln -sf $HOME/dotfiles/starship $HOME/.config/starship
 # TODO beyond compare
 # rename BCompare BCompare.exe
 # ln -sf $HOME/.dotfiles/bcompare/BCompare /Application/Beyond Compare.app/Content/MacOS
+
+# ASDF
+# mkdir -p "${ASDF_DATA_DIR:-$HOME/.asdf}/completions"
+# asdf completion zsh > "${ASDF_DATA_DIR:-$HOME/.asdf}/completions/_asdf"
+
+echo "source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> $HOME/.zshrc
+echo "source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
