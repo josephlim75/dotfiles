@@ -1,9 +1,28 @@
+term = xterm-256color
 theme = "nord"
-keybind=super+kp_add=increase_font_size:1
 font-size=15
 window-height=30
 window-width=110
+quit-after-last-window-closed=true
+#macos-option-as-alt = true
+
+## Mouse select copy to clipboard
+copy-on-select = clipboard
 
 ## Clipboard
 clipboard-read = "allow"
 clipboard-paste-protection = false
+
+## Numpad + to increase font
+## ghostty +list-keybinds --default
+keybind = super+kp_add=increase_font_size:1
+keybind = page_up=scroll_page_up
+keybind = page_down=scroll_page_down
+keybind = home=text:\x01
+keybind = end=text:\x05
+keybind = "super+f=write_scrollback_file:open"
+
+## Set cursor to block
+cursor-style = block
+shell-integration-features= no-cursor
+

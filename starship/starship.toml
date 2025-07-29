@@ -43,6 +43,16 @@ $time\
 $line_break\
 $character"""
 
+
+# Timeout for commands executed by starship (in milliseconds).
+command_timeout = 3600000
+
+# Ignore global command_timeout setting and keep running external commands, no matter how long they take.
+# ignore_timeout = true
+
+# Timeout for starship to scan files (in milliseconds).
+# scan_timeout = 500
+
 [custom.directory_separator_git]
 command = ""
 format = "[](fg:#88c0d0 bg:#054e98)"
@@ -93,7 +103,7 @@ symbol = ' '
 show_always = true
 style_user = "fg:#e4eff5 bg:#5e81ac"
 style_root = "fg:#e4eff5 bg:#5e81ac"
-format = '[$user ]($style)'
+format = '[ $user ]($style)'
 disabled = false
 
 # An alternative to the username module which displays a symbol that
