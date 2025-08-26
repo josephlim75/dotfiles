@@ -1,0 +1,331 @@
+#!/usr/bin/env bash
+
+# Define the application you want to focus on
+APP_NAME="Arc"  # Change this to your desired application
+TIMEOUT=20      # Maximum wait time in seconds
+## Caching will speed up profile loading by caching profiles and only loading them through AWS commands 
+## when there are differences in their file checksums.
+AWS_PROFILES_DIR="${HOME}/.granted"
+AWS_PROFILES_PREVIOUS_MD5=$(cat "${AWS_PROFILES_DIR}/aws_config_md5" 2>/dev/null)
+AWS_PROFILES_CURRENT_MD5=$(md5sum ${HOME}/.aws/config | awk '{print $1}')
+
+# Create granted directory if not exists
+mkdir -p ${AWS_PROFILES_DIR}
+
+escape_value() {
+    local text="$1"
+    echo "$text" | sed 's/"/\\"/g; s/\\/\\\\/g'
+}
+
+# Function to check if the application is running
+is_running() {
+    pgrep -x "$APP_NAME" > /dev/null
+}
+
+
+is_browser_running() {
+    if is_running; then
+        # Bring the application to the foreground
+        osascript -e "tell application \"$APP_NAME\" to activate" 2>/dev/null
+        sleep 1
+        osascript -e "tell application \"$APP_NAME\" to set frontmost to true"  2>/dev/null
+    else
+        # If the application is not running, launch it
+        open -a "$APP_NAME"
+        
+        # Wait until the application is running, with a timeout
+        SECONDS=0  # Reset the timer
+        while ! is_running; do
+            if [ "$SECONDS" -ge "$TIMEOUT" ]; then
+                echo "Timeout reached: $APP_NAME did not start in $TIMEOUT seconds."
+                exit 1  # Exit with an error code
+            fi
+            sleep 1  # Check every second
+        done
+    fi
+    sleep 1.5
+}
+
+# get_tabs() {
+#     osascript <<EOF
+#     on escape_value(this_text)
+#         set AppleScript's text item delimiters to "\""
+#         set the item_list to every text item of this_text
+#         set AppleScript's text item delimiters to "\\\\"
+#         set this_text to the item_list as string
+#         set AppleScript's text item delimiters to ""
+#         return this_text
+#     end escape_value
+
+#     set _output to ""
+
+#     tell application "Arc"
+#         set _window_index to 1
+#         set _tab_index to 1
+
+#         repeat with _tab in tabs of first window
+#             set _title to my escape_value(get title of _tab)
+#             set _url to get URL of _tab
+#             set _location to get location of _tab
+
+#             set _output to (_output & "{ \"title\": \"" & _title & "\", \"url\": \"" & _url & "\", \"windowId\": " & _window_index & ", \"tabId\": " & _tab_index & " , \"location\": \"" & _location & "\" }")
+
+#             if _tab_index < (count tabs of first window) then
+#                 set _output to (_output & ",\\n")
+#             else
+#                 set _output to (_output & "\\n")
+#             end if
+
+#             set _tab_index to _tab_index + 1
+#         end repeat
+#     end tell
+
+#     return "[\\n" & _output & "\\n]"
+# EOF
+# }
+
+# find_tab() {
+#     local url="$1"
+#     osascript <<EOF
+#     on escape_value(this_text)
+#         set AppleScript's text item delimiters to "\""
+#         set the item_list to every text item of this_text
+#         set AppleScript's text item delimiters to "\\\\"
+#         set this_text to the item_list as string
+#         set AppleScript's text item delimiters to ""
+#         return this_text
+#     end escape_value
+
+#     set _output to ""
+
+#     tell application "Arc"
+#         set _window_index to 1
+
+#         repeat with _window in windows
+#             set _tab_index to 1
+
+#             repeat with _tab in tabs of _window
+#                 set _url to get URL of _tab
+
+#                 if _url is equal to "${url}" then
+#                     set _title to my escape_value(get title of _tab)
+#                     set _location to get location of _tab
+
+#                     set _output to (_output & "{ \"title\": \"" & _title & "\", \"url\": \"" & _url & "\", \"windowId\": " & _window_index & ", \"tabId\": " & _tab_index & " , \"location\": \"" & _location & "\" }")
+
+#                     return _output
+#                 end if
+
+#                 set _tab_index to _tab_index + 1
+#             end repeat
+
+#             set _window_index to _window_index + 1
+#         end repeat
+#     end tell
+
+#     return _output
+# EOF
+# }
+
+# select_tab() {
+#     local windowId="$1"
+#     local tabId="$2"
+#     osascript <<EOF
+#     tell application "Arc"
+#         tell window (${windowId} as number)
+#             tell tab (${tabId} as number) to select
+#         end tell
+#         activate
+#     end tell
+# EOF
+# }
+
+# close_tab() {
+#     local windowId="$1"
+#     local tabId="$2"
+#     osascript <<EOF
+#     tell application "Arc"
+#         tell window (${windowId} as number)
+#             tell tab (${tabId} as number) to close
+#         end tell
+#     end tell
+# EOF
+# }
+
+# reload_tab() {
+#     local windowId="$1"
+#     local tabId="$2"
+#     osascript <<EOF
+#     tell application "Arc"
+#         tell window (${windowId} as number)
+#             tell tab (${tabId} as number) to reload
+#         end tell
+#     end tell
+# EOF
+# }
+
+# make_new_tab() {
+#     local url="$1"
+#     osascript <<EOF
+#     tell application "Arc"
+#         tell front window
+#             make new tab with properties {URL:"${url}"}
+#         end tell
+#         activate
+#     end tell
+# EOF
+# }
+
+create_tab_within_space() {
+    local url="$1"
+    local space_id="$2"
+    osascript <<EOF
+    tell application "Arc"
+        tell front window
+            tell space ${space_id}
+                make new tab with properties {URL:"${url}"}
+            end tell
+        end tell
+        activate
+    end tell
+EOF
+}
+
+
+# make_new_window() {
+#     local incognito="$1"
+#     local url="$2"
+#     osascript <<EOF
+#     tell application "Arc"
+#         make new window with properties {incognito: ${incognito}}
+#         activate
+
+#         if "${url}" is not "" then
+#             tell front window to make new tab with properties {URL:"${url}"}
+#         end if
+#     end tell
+# EOF
+# }
+
+
+# select_space() {
+#     local space_id="$1"
+#     osascript <<EOF
+#     launch app "Arc"
+#     delay 1
+#     tell application "Arc"
+#         tell front window
+#             tell space ${space_id} to focus
+#         end tell
+#     end tell
+# EOF
+# }
+
+
+get_spaces() {
+    osascript <<EOF
+    set _output to ""
+
+    tell application "Arc"
+        set _space_index to 1
+
+        repeat with _space in spaces of front window
+            set _title to get title of _space
+
+            set _output to (_output & "{ \"title\": \"" & _title & "\", \"id\": " & _space_index & " }")
+
+            if _space_index < (count spaces of front window) then
+                set _output to (_output & ",\\n")
+            else
+                set _output to (_output & "\\n")
+            end if
+
+            set _space_index to _space_index + 1
+        end repeat
+    end tell
+
+    return "[\\n" & _output & "\\n]"
+EOF
+}
+
+# get_version() {
+#     osascript <<EOF
+#     tell application "Arc"
+#         return version
+#     end tell
+# EOF
+# }
+
+ARGS="$@"
+echo $ARGS
+if [[ "$ARGS" = "spaces ls" ]]; then
+    get_spaces
+    exit 0
+fi
+
+
+# { "title": "AWS int-root", "id": 3 },
+# { "title": "AWS int-shs", "id": 4 },
+# { "title": "AWS int-dev", "id": 5 },
+# { "title": "AWS int-intg", "id": 6 },
+# { "title": "AWS int-stg", "id": 7 },
+# { "title": "AWS int-prod", "id": 8 },
+# { "title": "AWS int-leg-le", "id": 9 },
+# { "title": "AWS int-leg-upper", "id": 10 },
+# { "title": "AWS int-aft-mgmt", "id": 11 },
+# { "title": "AWS int-ml-prod", "id": 12 },
+# { "title": "AWS int-ml-nonprod", "id": 13 }
+## Key Mapping
+get_space_by_profile() {
+    local profile=$(echo $1 | tr '[:upper:]' '[:lower:]')
+    case "$profile" in
+        "int-clz-root") echo "3" ;;
+        "int-shs") echo "4" ;;
+        "int-dev") echo "5" ;;
+        "int-intg") echo "6" ;;
+        "int-stg") echo "7" ;;
+        "int-prod") echo "8" ;;
+        "interosle"|"int-legacy-le") echo "9" ;;
+        "interoshe"|"int-legacy-he") echo "10" ;;
+        "int-aft-management") echo "11" ;;
+        "int-ml-prod") echo "12" ;;
+        "int-ml-nonprod") echo "13" ;;
+        *) echo "Unknown mapping" ;;
+    esac
+}
+
+
+
+
+
+if [[ "${AWS_PROFILES_PREVIOUS_MD5}" != "${AWS_PROFILES_CURRENT_MD5}" ]]; then
+  PROFILES=$(aws configure list-profiles)
+  echo "${PROFILES}" > "${AWS_PROFILES_DIR}/aws_profiles_list"
+  echo "${AWS_PROFILES_CURRENT_MD5}" > "${AWS_PROFILES_DIR}/aws_config_md5"
+else
+  PROFILES=$(cat "${AWS_PROFILES_DIR}"/aws_profiles_list)
+fi
+
+# Use fzf to let the user select a profile
+SELECTED_PROFILE=$(echo "$PROFILES" | fzf --header="Select an AWS Profile:" --height=50% --min-height=10)
+
+# Check if a profile was selected
+if [ -n "$SELECTED_PROFILE" ]; then
+    echo "You selected: $SELECTED_PROFILE"
+    # You can use the selected profile here, for example:
+    export AWS_PROFILE="$SELECTED_PROFILE"
+    echo "AWS profile set to $AWS_PROFILE"
+else
+    echo "No profile selected."
+    exit 0
+fi
+
+echo "Profile: $(get_space_by_profile "$AWS_PROFILE")"
+
+## Issue: Annoying message always says to configure .zshenv https://github.com/common-fate/granted/issues/592
+export GRANTED_ALIAS_CONFIGURED="true"
+assume ${AWS_PROFILE} --export-sso-token
+SIGN_IN_URL=$(assume ${AWS_PROFILE} -u)
+
+is_browser_running && \
+ create_tab_within_space "${SIGN_IN_URL}" "$(get_space_by_profile "$AWS_PROFILE")"

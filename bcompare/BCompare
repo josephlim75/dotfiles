@@ -5,5 +5,5 @@
 # touch a file name BCompare , and chmod a+ux BCompare : touch  BCompare && chmod a+ux BCompare
 # open BCompare with text editor, insert the script :
 
-rm "/Users/$(whoami)/Library/Application Support/Beyond Compare 5/registry.dat" ||true
-"/Applications/Beyond Compare.app/Contents/MacOS"/BCompare.bin $@
+rm -f "/Users/$(whoami)/Library/Application Support/Beyond Compare 5/registry.dat"
+"/Applications/Beyond Compare.app/Contents/MacOS"/BCompare $@

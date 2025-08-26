@@ -1,0 +1,8 @@
+DefaultBrowser = "STDOUT"
+CustomBrowserPath = ""
+CustomSSOBrowserPath = ""
+Ordering = ""
+ExportCredentialSuffix = ""
+
+[Keyring]
+  Backend = "keychain"

@@ -1,0 +1,22 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "int-apps-stg-apps-gov-usw1.cluster-csfd8qlztk1u.us-gov-west-1.rds.amazonaws.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "App - Gov STG",
+            "database": "int_apps",
+            "username": "root"
+        },
+        {
+            "previewLimit": 50,
+            "server": "int-apps-stg-apps-gov-usw1.global-gutetfm3qnsa.global-us-gov.rds.amazonaws.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "Auth - Gov STG",
+            "username": "sys_auth_stage",
+            "database": "auth"
+        }
+    ]
+}

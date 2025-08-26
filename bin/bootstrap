@@ -13,3 +13,6 @@ ln -sf $HOME/dotfiles/starship $HOME/.config/starship
 
 echo "source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> $HOME/.zshrc
 echo "source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+
+# Git 
+git config --global core.editor "code --wait"

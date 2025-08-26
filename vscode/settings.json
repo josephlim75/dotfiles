@@ -1,5 +1,4 @@
 {
-    "editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace, 'Hack Nerd Font'",
     "workbench.colorTheme": "Default Light Modern",
     "workbench.colorCustomizations": {
         "terminal.background":"#2E3440",
@@ -9,5 +8,8 @@
     },
     "terminal.integrated.fontFamily": "Menlo, Monaco, 'Courier New', monospace, 'Hack Nerd Font'",
     "terminal.integrated.defaultProfile.osx": "zsh",
-    "terminal.external.osxExec": "Ghostty.app"
+    "terminal.external.osxExec": "Ghostty.app",
+    "editor.renderWhitespace": "all",
+    "editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace, 'Hack Nerd Font'",
+    "security.workspace.trust.untrustedFiles": "open"
 }

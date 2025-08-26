@@ -18,8 +18,6 @@ clipboard-paste-protection = false
 keybind = super+kp_add=increase_font_size:1
 keybind = page_up=scroll_page_up
 keybind = page_down=scroll_page_down
-keybind = home=text:\x01
-keybind = end=text:\x05
 keybind = "super+f=write_scrollback_file:open"
 
 ## Set cursor to block

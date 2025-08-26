@@ -2,9 +2,11 @@
 
 has_changes=$(git status --porcelain 2>/dev/null | grep . > /dev/null && echo true || echo false)
 is_git_repo=$(git rev-parse --is-inside-work-tree > /dev/null 2>&1 && echo true || echo false)
+ahead_behind=$(echo "$(git rev-list --left-right --count HEAD...@{upstream} 2>/dev/null | awk '{print $1$2}')")
+ahead_behind=${ahead_behind:-"00"}
 
 if [ $is_git_repo = true ]; then
-  if [ $has_changes = true ]; then
+  if [ "$has_changes" = true ] || [ "$ahead_behind" != "00" ]; then
     echo "dirty"
   else
     echo "committed"
