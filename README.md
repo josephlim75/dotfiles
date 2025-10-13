@@ -1,4 +1,15 @@
 # dotfiles
+Brewfile
+brew bundle
+
+Brewfile can container below
+```
+"cask is for ui tool"
+brew "tmux"
+cask "1password" unless [ $MACHINE == "work" ]
+cask "1password-cli"
+cask "arc"
+```
 
 
 The fonts below is required for Visual Studio

@@ -16,9 +16,7 @@ clipboard-paste-protection = false
 ## Numpad + to increase font
 ## ghostty +list-keybinds --default
 keybind = super+kp_add=increase_font_size:1
-keybind = page_up=scroll_page_up
-keybind = page_down=scroll_page_down
-keybind = "super+f=write_scrollback_file:open"
+keybind = super+f=write_scrollback_file:open
 
 ## Set cursor to block
 cursor-style = block

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+export AWS_DEFAULT_PROFILE="int-shs"
+export INTEROS_CI_SECRET_STG_AWS_ACCESS_KEY_ID="505063238484:interos/gov/stg/iam/int-infra-ops-poweruser-deployer:AWS_ACCESS_KEY_ID"
+export INTEROS_CI_SECRET_STG_AWS_SECRET_ACCESS_KEY="505063238484:interos/gov/stg/iam/int-infra-ops-poweruser-deployer:AWS_SECRET_ACCESS_KEY"
+export INTEROS_CI_SECRET_PRD_AWS_ACCESS_KEY_ID="505063238484:interos/clz/gov/prd/iam/int-infra-ops-admin-gitlab-runner:AWS_ACCESS_KEY_ID"
+export INTEROS_CI_SECRET_PRD_AWS_SECRET_ACCESS_KEY="505063238484:interos/clz/gov/prd/iam/int-infra-ops-admin-gitlab-runner:AWS_SECRET_ACCESS_KEY"
+
+
+
+. interos init
+

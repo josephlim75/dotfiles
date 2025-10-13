@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Windows: C:\\Users\\<username>\\AppData\\Local\\pypoetry\\Cache
+# macOS: ~/Library/Caches/pypoetry
+# Linux: ~/.cache/pypoetry 
+
+PROJECT_VENV="$HOME/Library/Caches/pypoetry/virtualenvs"
+PROJECT_PATH="$(realpath "$PWD")"
+PROJECT_NAME="$(basename "$PROJECT_PATH")"
+
+if command -v shasum >/dev/null 2>&1; then
+  HASH="$(printf '%s' "$PROJECT_PATH" | shasum | awk '{print $1}' | cut -c1-8)"
+else
+  HASH="$(printf '%s' "$PROJECT_PATH" | openssl dgst -sha1 | awk '{print $NF}' | cut -c1-8)"
+fi
+
+if command -v python3 >/dev/null 2>&1; then
+  PYVER="$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
+  PYTHON_EXEC="python3"
+elif command -v python >/dev/null 2>&1; then
+  PYVER="$(python -c 'import sys; print("{}.{}".format(sys.version_info[0], sys.version_info[1]))')"
+  PYTHON_EXEC="python"
+else
+  echo "Error: Python not found (need python3 or python)" >&2
+  exit 1
+fi
+#echo ${PROJECT_NAME}
+#echo ${PROJECT_PATH}
+#echo ${HASH}
+#echo ${PVER}
+
+PIPENV="${PROJECT_NAME}-${HASH}-py${PYVER}"
+PIPENV_DIR="${PROJECT_VENV}/${PIPENV}"
+
+${PYTHON_EXEC} -m venv ${PIPENV_DIR}
+. ${PIPENV_DIR}/bin/activate
