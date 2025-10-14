@@ -1,13 +1,18 @@
 #!/bin/bash
 
+AWS_DEFAULT_PROFILE="int-shs"
 
-export AWS_DEFAULT_PROFILE="int-shs"
-export INTEROS_CI_SECRET_STG_AWS_ACCESS_KEY_ID="505063238484:interos/gov/stg/iam/int-infra-ops-poweruser-deployer:AWS_ACCESS_KEY_ID"
-export INTEROS_CI_SECRET_STG_AWS_SECRET_ACCESS_KEY="505063238484:interos/gov/stg/iam/int-infra-ops-poweruser-deployer:AWS_SECRET_ACCESS_KEY"
-export INTEROS_CI_SECRET_PRD_AWS_ACCESS_KEY_ID="505063238484:interos/clz/gov/prd/iam/int-infra-ops-admin-gitlab-runner:AWS_ACCESS_KEY_ID"
-export INTEROS_CI_SECRET_PRD_AWS_SECRET_ACCESS_KEY="505063238484:interos/clz/gov/prd/iam/int-infra-ops-admin-gitlab-runner:AWS_SECRET_ACCESS_KEY"
+get_secret() {
+  local secret_path=$1
+  local key=$2
 
+  echo $(aws secretsmanager get-secret-value \
+    --secret-id "$secret_path" \
+    --query 'SecretString' \
+    --output text --profile $AWS_DEFAULT_PROFILE  |  jq -r ".$key")
+}
 
-
-. interos init
-
+aws configure set aws_access_key_id $(get_secret interos/gov/stg/iam/int-infra-ops-poweruser-deployer AWS_ACCESS_KEY_ID) --profile gov-stg
+aws configure set aws_secret_access_key $(get_secret interos/gov/stg/iam/int-infra-ops-poweruser-deployer AWS_SECRET_ACCESS_KEY) --profile gov-stg
+aws configure set aws_access_key_id $(get_secret interos/clz/gov/prd/iam/int-infra-ops-admin-gitlab-runner AWS_ACCESS_KEY_ID) --profile gov-prod
+aws configure set aws_secret_access_key $(get_secret interos/clz/gov/prd/iam/int-infra-ops-admin-gitlab-runner AWS_SECRET_ACCESS_KEY) --profile gov-prod
