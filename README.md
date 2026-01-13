@@ -1,6 +1,9 @@
 # Getting Started
 
 - Checkout the repo directly into your `$HOME/.dotfiles`
+  ```
+  git clone https://github.com/josephlim75/dotfiles.git ~/.dotfiles
+  ```
 - Link the configuration accordingly to the tools of their default configuration.  For example `ghostty` configuration is located
   in `$HOME/.config/ghostty`, then make a drectory link to the target configuration path
   ```
