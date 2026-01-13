@@ -1,3 +1,12 @@
+# Getting Started
+
+- Checkout the repo directly into your `$HOME/.dotfiles`
+- Link the configuration accordingly to the tools of their default configuration.  For example `ghostty` configuration is located
+  in `$HOME/.config/ghostty`, then make a drectory link to the target configuration path
+  ```
+  ln -sf $HOME/.dotfiles/ghossty $HOME/.config/ghostty
+  ```
+
 # dotfiles
 Brewfile
 brew bundle
