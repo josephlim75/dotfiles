@@ -1,5 +1,5 @@
 term = xterm-256color
-theme = "nord"
+theme = "Nord"
 font-size=15
 window-height=30
 window-width=110
