@@ -16,3 +16,13 @@ aws configure set aws_access_key_id $(get_secret interos/gov/stg/iam/int-infra-o
 aws configure set aws_secret_access_key $(get_secret interos/gov/stg/iam/int-infra-ops-poweruser-deployer AWS_SECRET_ACCESS_KEY) --profile gov-stg
 aws configure set aws_access_key_id $(get_secret interos/clz/gov/prd/iam/int-infra-ops-admin-gitlab-runner AWS_ACCESS_KEY_ID) --profile gov-prod
 aws configure set aws_secret_access_key $(get_secret interos/clz/gov/prd/iam/int-infra-ops-admin-gitlab-runner AWS_SECRET_ACCESS_KEY) --profile gov-prod
+
+GOV_STG_ECR_TOKEN=$(aws ecr get-login-password --region us-gov-west-1 --profile gov-stg)
+
+echo ${GOV_STG_ECR_TOKEN} | docker  login --username AWS --password-stdin 378365008553.dkr.ecr.us-gov-west-1.amazonaws.com
+echo ${GOV_STG_ECR_TOKEN} | skopeo  login --username AWS --password-stdin 378365008553.dkr.ecr.us-gov-west-1.amazonaws.com
+
+GOV_PRD_ECR_TOKEN=$(aws ecr get-login-password --region us-gov-west-1 --profile gov-prod)
+
+echo ${GOV_PRD_ECR_TOKEN} | docker  login --username AWS --password-stdin 407568541501.dkr.ecr.us-gov-west-1.amazonaws.com
+echo ${GOV_PRD_ECR_TOKEN} | skopeo  login --username AWS --password-stdin 407568541501.dkr.ecr.us-gov-west-1.amazonaws.com
