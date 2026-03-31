@@ -34,3 +34,4 @@ PIPENV_DIR="${PROJECT_VENV}/${PIPENV}"
 
 ${PYTHON_EXEC} -m venv ${PIPENV_DIR}
 . ${PIPENV_DIR}/bin/activate
+echo "Created virtual environment at ${PIPENV_DIR}"
