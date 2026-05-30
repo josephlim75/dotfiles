@@ -66,7 +66,7 @@ setup_ohmyzsh() {
   if ! cmp -s ~/.zshrc ~/.dotfiles/zsh/.zshrc; then
     mkdir -p "${HOME}/.backup/zshrc"
     cp ~/.zshrc "${HOME}/.backup/zshrc/zshrc.$(date +%Y%m%d-%H%M%S)"
-    cp -f ${HOME}/.dotfiles/zsh/.zshrc ${HOME}/.zshrc
+    ln -sf ${HOME}/.dotfiles/zsh/.zshrc ${HOME}/.zshrc
   fi
 }
 
