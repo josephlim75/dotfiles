@@ -1,7 +1,8 @@
 tap "hashicorp/tap"
 
 brew "tmux"
-brew "neovim"
+brew "neovime
+brew "starship"
 
 cask "ghostty"
 cask "arc"
