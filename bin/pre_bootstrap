@@ -5,7 +5,7 @@ USER_NAME=$(whoami)
 echo "${USER_NAME} ALL=(ALL) NOPASSWD: ALL" | \
 sudo tee /etc/sudoers.d/${USER_NAME}
 
-sudo chmod 440 /etc/sudoers.d/${USER_NAME}
+sudo chmod 444 /etc/sudoers.d/${USER_NAME}
 
 sudo visudo -cf /etc/sudoers.d/${USER_NAME}
 
