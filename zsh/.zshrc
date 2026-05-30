@@ -1,94 +1,117 @@
-## Zsh Configuration
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-#######################################
-# Internal functions
-#######################################
-function has() {
-  which "$@" > /dev/null 2>&1
-}
+# Path to your Oh My Zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
 
-# ZSH history search and keybinds
-ZSH_HIST_SUBSTRING_SEARCH_IGNORE_CASE=true
-HISTSIZE=1048576
-SAVEHIST=$HISTSIZE
-HISTFILE=$HOME/.zsh_history
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time Oh My Zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
 
-setopt APPEND_HISTORY         # Appends history to the file instead of overwriting.
-setopt INC_APPEND_HISTORY     # Saves history after each command, not just on exit.
-setopt SHARE_HISTORY          # Shares history between concurrent sessions.
-setopt HIST_IGNORE_ALL_DUPS   # don’t keep duplicate lines
-setopt HIST_REDUCE_BLANKS     # trim extra spaces before saving
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
-autoload -Uz history-beginning-search-backward history-beginning-search-forward
-autoload -Uz backward-char forward-char
-autoload -Uz up-line-or-history down-line-or-history
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-typeset -g _hist_locked=0
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
 
-# Lock when you press ← / →
-lock-left()  { _hist_locked=1; zle backward-char; }
-lock-right() { _hist_locked=1; zle forward-char; }
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
-smart-up() {
-  if (( _hist_locked )) && [[ $BUFFER == *$'\n'* ]]; then
-    # Locked + multiline: move within buffer only; never switch history
-    [[ $LBUFFER == *$'\n'* ]] && zle .up-line-or-history || zle beginning-of-line
-  else
-    _hist_locked=0
-    zle history-beginning-search-backward
-  fi
-}
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
 
-smart-down() {
-  if (( _hist_locked )) && [[ $BUFFER == *$'\n'* ]]; then
-    # Locked + multiline: move within buffer only; never switch history
-    [[ $RBUFFER == *$'\n'* ]] && zle .down-line-or-history || zle end-of-line
-  else
-    _hist_locked=0
-    zle history-beginning-search-forward
-  fi
-}
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
 
-# (Optional) when you press Enter, clear the lock for the next command
-accept-and-unlock() { _hist_locked=0; zle .accept-line; }
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
 
-zle -N smart-up
-zle -N smart-down
-zle -N lock-left
-zle -N lock-right
-zle -N accept-and-unlock
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
 
-# Bindings (emacs & vi insert)
-for km in emacs viins; do
-  bindkey -M $km '^[[A'  smart-up
-  bindkey -M $km '^[[B'  smart-down
-  bindkey -M $km '^[OA'  smart-up
-  bindkey -M $km '^[OB'  smart-down
-  bindkey -M $km '^[[D'  lock-left
-  bindkey -M $km '^[[C'  lock-right
-  bindkey -M $km '^M'    accept-and-unlock     # Enter (optional)
-done
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
 
-# # Cycle through history based on characters already typed on the line
-# autoload -U history-search-end
-# zle -N history-beginning-search-backward-end history-search-end
-# zle -N history-beginning-search-forward-end history-search-end
-# bindkey "^[[A" history-beginning-search-backward-end
-# bindkey "^[[B" history-beginning-search-forward-end
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
 
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# Key binds
-bindkey "^[[H"  beginning-of-line
-bindkey "^[[F"  end-of-line
-bindkey "^[[3~" delete-char
-export TERM=xterm-256color
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
 
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Alias
-alias ll="ls -l"
-alias la="ls -la"
-alias cls="clear"
-alias t="terraform"
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+
+#
+# Install zsh-autosuggestion and syntax highlighting
+#
+# git clone https://github.com/zsh-users/zsh-autosuggestions \
+#   ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+# git clone https://github.com/zsh-users/zsh-syntax-highlighting \
+#   ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+plugins=(git docker terraform vscode npm python aws brew zsh-autosuggestions zsh-syntax-highlighting)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='nvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch $(uname -m)"
+
+# Set personal aliases, overriding those provided by Oh My Zsh libs,
+# plugins, and themes. Aliases can be placed here, though Oh My Zsh
+# users are encouraged to define aliases within a top-level file in
+# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
+# - $ZSH_CUSTOM/aliases.zsh
+# - $ZSH_CUSTOM/macos.zsh
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+## Aliases
 alias k="kubectl"
 alias kctx="kubectl ctx"
 alias kns="kubectl ns"
@@ -99,25 +122,27 @@ export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 eval "$(starship init zsh)"
 
 ## zsh configuration
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-export TERM=xterm-256color
-export PATH=$HOME/.dotfiles/bin:${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH
-export CLICOLOR=YES
+export PATH=$HOME/.local/bin:$HOME/.dotfiles/bin:${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH
 
 ## Interos CLI
 export PATH="/Users/jlim/.interos/toolkit/bin:$PATH"
+export PYTHONDONTWRITEBYTECODE=1
 
 ## Add Krew PATH
 export PATH=${KREW_ROOT:-$HOME/.krew}/bin:$PATH
 
 ## ASDF 0.15.0 configuration
 export ASDF_DIR=$HOME/.asdf
-. "$HOME/.asdf/asdf.sh"
+#. "$HOME/.asdf/asdf.sh"
 # append completions to fpath
-fpath=(${ASDF_DIR}/completions $fpath)
-# initialise completions with ZSH's compinit
-autoload -Uz compinit && compinit
+#fpath=(${ASDF_DIR}/completions $fpath)
+
+## Direnv hook
+eval "$(direnv hook zsh)"
 
 ## Granted configuration
 alias assume='source $(asdf which assume)'
+eval "$(/Users/jlim/.local/bin/mise activate zsh)"
+
+# added by Snowflake SnowflakeCLI installer v1.0
+export PATH=/SnowflakeCLI.app/Contents/MacOS/:$PATH

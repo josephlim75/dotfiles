@@ -2,9 +2,12 @@
 
 brew bundle
 
-mkdir ${HOME}/.config
+mkdir -p "${HOME}/.config" "${HOME}/.backup/zshrc"
+
+[[ -f "${HOME}/.zshrc" ]] && cp ~/.zshrc "${HOME}/.backup/zshrc/zshrc.$(date +%Y%m%d-%H%M%S)"
 ln -sf ${HOME}/.dotfiles/ghostty ${HOME}/.config
 ln -sf ${HOME}/.dotfiles/starship ${HOME}/.config
+ln -sf ${HOME}/.dotfiles/zsh/.zshrc ${HOME}/.zshrc
 
 # TODO beyond compare
 # rename BCompare BCompare.exe
