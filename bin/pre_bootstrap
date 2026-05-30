@@ -52,6 +52,7 @@ setup_screenlock() {
 
 setup_ohmyzsh() {
   [[ -d "${HOME}/.oh-my-zsh" ]] && return 0
+  echo "star"
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 }
 
