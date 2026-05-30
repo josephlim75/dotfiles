@@ -75,7 +75,7 @@ setup_ohmyzsh() {
 }
 
 setup_brew_install() {
-  export HOMEBREW_BUNDLE_FILE=$HOMEBREW_BUNDLE_FILE:${HOME}/.dotfiles/Brewfile}
+  export HOMEBREW_BUNDLE_FILE=${HOMEBREW_BUNDLE_FILE:-${HOME}/.dotfiles/Brewfile}
   brew bundle
   ln -sf ${HOME}/.dotfiles/ghostty ${HOME}/.config
   ln -sf ${HOME}/.dotfiles/starship ${HOME}/.config
