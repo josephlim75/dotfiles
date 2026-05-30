@@ -3,8 +3,8 @@
 brew bundle
 
 mkdir ${HOME}/.config
-ln -sf ${HOME}/.dotfiles/ghostty ${HOME}/.config/ghostty
-ln -sf ${HOME}/.dotfiles/starship ${HOME}/.config/starship
+ln -sf ${HOME}/.dotfiles/ghostty/ ${HOME}/.config/ghostty/
+ln -sf ${HOME}/.dotfiles/starship/ ${HOME}/.config/starship/
 
 eval "$(starship init zsh)"
 
