@@ -1,13 +1,12 @@
 # Getting Started
 
-- Checkout the repo directly into your `$HOME/.dotfiles`
-  ```
-  git clone https://github.com/josephlim75/dotfiles.git ~/.dotfiles
-  ```
-
 - Run
   ```
   curl -fSsL https://raw.githubusercontent.com/josephlim75/dotfiles/refs/heads/main/bin/pre_bootstrap  | bash
+  ```
+- Checkout the repo directly into your `$HOME/.dotfiles`
+  ```
+  git clone https://github.com/josephlim75/dotfiles.git ~/.dotfiles
   ```
   
 - Link the configuration accordingly to the tools of their default configuration.  For example `ghostty` configuration is located
