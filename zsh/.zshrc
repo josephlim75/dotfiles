@@ -154,7 +154,7 @@ eval "$(direnv hook zsh)"
 
 ## Granted configuration
 alias assume='source $(asdf which assume)'
-eval "$(/Users/jlim/.local/bin/mise activate zsh)"
+eval "$(mise activate zsh)"
 
 # added by Snowflake SnowflakeCLI installer v1.0
 export PATH=/SnowflakeCLI.app/Contents/MacOS/:$PATH
