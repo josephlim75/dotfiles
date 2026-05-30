@@ -9,5 +9,7 @@ sudo chmod 444 /etc/sudoers.d/${USER_NAME}
 
 sudo visudo -cf /etc/sudoers.d/${USER_NAME}
 
-sudo rm -rf /Library/Developer/CommandLineTools
-xcode-select --install
+#sudo rm -rf /Library/Developer/CommandLineTools
+#xcode-select --install
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
