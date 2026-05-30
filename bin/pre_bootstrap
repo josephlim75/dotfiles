@@ -1,15 +1,18 @@
 #!/bin/bash
 
+# Set passwordless sudo
 USER_NAME=$(whoami)
-
 echo "${USER_NAME} ALL=(ALL) NOPASSWD: ALL" | \
 sudo tee /etc/sudoers.d/${USER_NAME}
-
 sudo chmod 444 /etc/sudoers.d/${USER_NAME}
-
 sudo visudo -cf /etc/sudoers.d/${USER_NAME}
 
-#sudo rm -rf /Library/Developer/CommandLineTools
-#xcode-select --install
+# Install XCode CLI (Mandatory)
+sudo rm -rf /Library/Developer/CommandLineTools
+xcode-select --install
 
+# Install Brew CLI
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo >> ${HOME}/.zprofile
+echo 'eval "$(/opt/homebrew/bin/brew shellenv zsh)"' >> ${HOME}/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv zsh)"
