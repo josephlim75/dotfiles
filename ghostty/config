@@ -17,7 +17,11 @@ clipboard-paste-protection = false
 ## Numpad + to increase font
 ## ghostty +list-keybinds --default
 keybind = super+kp_add=increase_font_size:1
-keybind = super+f=write_scrollback_file:open
+
+## https://github.com/ghostty-org/ghostty/issues/189 (Search GTK)
+keybind = cmd+f=search:Ghostty
+keybind = shift+cmd+f=search:
+#keybind = super+f=write_scrollback_file:open
 
 ## Set cursor to block
 cursor-style = block
