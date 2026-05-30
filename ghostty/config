@@ -19,7 +19,7 @@ clipboard-paste-protection = false
 keybind = super+kp_add=increase_font_size:1
 
 ## https://github.com/ghostty-org/ghostty/issues/189 (Search GTK)
-keybind = cmd+f=search:Ghostty
+keybind = cmd+f=search:
 keybind = shift+cmd+f=search:
 #keybind = super+f=write_scrollback_file:open
 
