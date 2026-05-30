@@ -78,7 +78,19 @@ ZSH_THEME="robbyrussell"
 #   ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 # git clone https://github.com/zsh-users/zsh-syntax-highlighting \
 #   ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-plugins=(git docker terraform vscode npm python aws brew zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(
+  git 
+  docker 
+  terraform 
+  vscode 
+  npm 
+  python 
+  aws 
+  brew 
+  zsh-autosuggestions 
+  zsh-syntax-highlighting
+  zsh-completions
+)
 
 source $ZSH/oh-my-zsh.sh
 

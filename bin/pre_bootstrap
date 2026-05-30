@@ -51,9 +51,23 @@ setup_screenlock() {
 }
 
 setup_ohmyzsh() {
-  [[ -d "${HOME}/.oh-my-zsh" ]] && return 0
-  echo "star"
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  [[ -d "${HOME}/.oh-my-zsh" ]] || \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+  [[ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]] || \
+    git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+  [[ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]] || \
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+  [[ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-completions" ]] || \
+    git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
+
+  if ! cmp -s ~/.zshrc ~/.dotfiles/zsh/.zshrc; then
+    mkdir -p "${HOME}/.backup/zshrc"
+    cp ~/.zshrc "${HOME}/.backup/zshrc/zshrc.$(date +%Y%m%d-%H%M%S)"
+    cp -f ${HOME}/.dotfiles/zsh/.zshrc ${HOME}/.zshrc
+  fi
 }
 
 main() {
