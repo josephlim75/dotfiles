@@ -1,12 +1,6 @@
 #!/bin/sh
 
-brew bundle
 
-mkdir -p "${HOME}/.config"
-
-
-ln -sf ${HOME}/.dotfiles/ghostty ${HOME}/.config
-ln -sf ${HOME}/.dotfiles/starship ${HOME}/.config
 
 # TODO beyond compare
 # rename BCompare BCompare.exe

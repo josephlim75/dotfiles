@@ -16,6 +16,10 @@ require_cmds() {
 }
 
 
+setup_init() {
+  mkdir -p "${HOME}/.config"
+}
+
 setup_passwordless() {
   # Set passwordless sudo
   USER_NAME=$(whoami)
@@ -63,19 +67,27 @@ setup_ohmyzsh() {
   [[ -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-completions" ]] || \
     git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
 
-  if ! cmp -s ~/.zshrc ~/.dotfiles/zsh/.zshrc; then
+  if ! cmp -s ${HOME}/.zshrc ${HOME}/.dotfiles/zsh/.zshrc; then
     mkdir -p "${HOME}/.backup/zshrc"
-    cp ~/.zshrc "${HOME}/.backup/zshrc/zshrc.$(date +%Y%m%d-%H%M%S)"
+    [[ "${HOME}/.zshrc" ]] && cp ${HOME}/.zshrc "${HOME}/.backup/zshrc/zshrc.$(date +%Y%m%d-%H%M%S)"
     ln -sf ${HOME}/.dotfiles/zsh/.zshrc ${HOME}/.zshrc
   fi
 }
 
+setup_brew_install() {
+  brew bundle
+  ln -sf ${HOME}/.dotfiles/ghostty ${HOME}/.config
+  ln -sf ${HOME}/.dotfiles/starship ${HOME}/.config
+}
+
 main() {
+  setup_init
   setup_passwordless
   setup_xcode_cli
   setup_brew_cli
   setup_screenlock
   setup_ohmyzsh
+  setup_brew_install
 }
 
 main "$@"
