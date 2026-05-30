@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set +x
 require_cmd() {
   local cmd="$1"
   command -v "$cmd" >/dev/null 2>&1 || return 1
