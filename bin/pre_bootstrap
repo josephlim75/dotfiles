@@ -50,11 +50,17 @@ setup_screenlock() {
   sudo pmset -a displaysleep 0
 }
 
+setup_ohmyzsh() {
+  [[ -d "${HOME}/.oh-my-zsh" ]] && return 0
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+}
+
 main() {
   setup_passwordless
   setup_xcode_cli
   setup_brew_cli
   setup_screenlock
+  setup_ohmyzsh
 }
 
 main "$@"
