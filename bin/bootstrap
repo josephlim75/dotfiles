@@ -2,8 +2,9 @@
 
 brew bundle
 
-ln -sf $HOME/dotfiles/ghostty $HOME/.config/ghostty
-ln -sf $HOME/dotfiles/starship $HOME/.config/starship
+mkdir ${HOME}/.config
+ln -sf ${HOME}/.dotfiles/ghostty ${HOME}/.config/ghostty
+ln -sf ${HOME}/.dotfiles/starship ${HOME}/.config/starship
 
 # TODO beyond compare
 # rename BCompare BCompare.exe
