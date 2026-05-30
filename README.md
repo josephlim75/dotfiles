@@ -4,6 +4,12 @@
   ```
   git clone https://github.com/josephlim75/dotfiles.git ~/.dotfiles
   ```
+
+- Run
+  ```
+  curl -fSsL https://raw.githubusercontent.com/josephlim75/dotfiles/refs/heads/main/bin/pre_bootstrap  | bash
+  ```
+  
 - Link the configuration accordingly to the tools of their default configuration.  For example `ghostty` configuration is located
   in `$HOME/.config/ghostty`, then make a drectory link to the target configuration path
   ```
