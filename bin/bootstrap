@@ -1,9 +1,5 @@
 #!/bin/sh
 
-# Install xcode cli
-sudo rm -rf /Library/Developer/CommandLineTools
-sudo xcode-select --install
-
 brew bundle
 
 ln -sf $HOME/dotfiles/ghostty $HOME/.config/ghostty
