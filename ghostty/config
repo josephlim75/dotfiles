@@ -7,6 +7,9 @@ quit-after-last-window-closed=true
 auto-update = off
 #macos-option-as-alt = true
 
+# Force GTK single instance mode to speed up startup time
+gtk-single-instance = true
+
 ## Mouse select copy to clipboard
 copy-on-select = clipboard
 
