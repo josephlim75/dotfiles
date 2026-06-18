@@ -87,13 +87,16 @@ setup_gitconfig() {
   case "$(uname -s)" in
     Darwin)
       git config --global credential.helper osxkeychain
+      git config --global user.email jlim@interos.ai
       echo "Configured Git to use macOS Keychain"
       ;;
     *)
       git config --global credential.helper store
+      git config --global user.email josephlim@as3tech.com
       echo "Configured Git to use credential store"
       ;;
   esac
+  git config --global user.name "Joseph Lim"
 }
 
 main() {
