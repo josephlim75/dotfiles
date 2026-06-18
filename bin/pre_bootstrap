@@ -83,6 +83,19 @@ setup_brew_install() {
   ln -sf ${HOME}/.dotfiles/hedr ${HOME}/.config
 }
 
+setup_gitconfig() {
+  case "$(uname -s)" in
+    Darwin)
+      git config --global credential.helper osxkeychain
+      echo "Configured Git to use macOS Keychain"
+      ;;
+    *)
+      git config --global credential.helper store
+      echo "Configured Git to use credential store"
+      ;;
+  esac
+}
+
 main() {
   setup_init
   setup_passwordless
@@ -90,6 +103,7 @@ main() {
   setup_brew_cli
   setup_screenlock
   setup_ohmyzsh
+  setup_gitconfig
   setup_brew_install
 }
 
