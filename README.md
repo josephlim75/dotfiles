@@ -15,6 +15,7 @@
   ln -sf $HOME/.dotfiles/ghossty $HOME/.config/ghostty
   ```
 
+
 # dotfiles
 Brewfile
 brew bundle
