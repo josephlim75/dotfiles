@@ -79,6 +79,7 @@ setup_brew_install() {
   brew bundle
   ln -sf ${HOME}/.dotfiles/ghostty ${HOME}/.config
   ln -sf ${HOME}/.dotfiles/starship ${HOME}/.config
+  ln -sf ${HOME}/.dotfiles/harlequin ${HOME}/.config
 }
 
 main() {

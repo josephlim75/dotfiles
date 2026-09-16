@@ -1,0 +1,51 @@
+default_profile = "duckdb-local"
+
+# --------------------------------
+# DuckDB
+# --------------------------------
+[profiles.duckdb-local]
+adapter = "duckdb"
+conn_str = ["/Users/joseph/databases/local.duckdb"]
+read_only = false
+
+# In-memory DuckDB
+[profiles.duckdb-memory]
+adapter = "duckdb"
+conn_str = []
+
+# --------------------------------
+# SQLite
+# --------------------------------
+[profiles.sqlite-local]
+adapter = "sqlite"
+conn_str = ["/Users/joseph/databases/local.sqlite"]
+mode = "rw"
+timeout = 60
+cached_statements = 256
+
+# Read-only SQLite
+[profiles.sqlite-readonly]
+adapter = "sqlite"
+conn_str = ["/Users/joseph/databases/local.sqlite"]
+read_only = true
+
+# --------------------------------
+# PostgreSQL
+# --------------------------------
+[profiles.postgres-local]
+adapter = "postgres"
+host = "localhost"
+port = 5432
+user = "postgres"
+password = "change-me"
+dbname = "postgres"
+sslmode = "prefer"
+
+[profiles.postgres-dev]
+adapter = "postgres"
+host = "postgres-dev.example.com"
+port = 5432
+user = "joseph"
+dbname = "application"
+sslmode = "require"
+connect_timeout = 10

@@ -138,8 +138,8 @@ eval "$(starship init zsh)"
 export PATH=$HOME/.local/bin:$HOME/.dotfiles/bin:${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH
 
 ## Interos CLI
-export PATH="/Users/jlim/.interos/toolkit/bin:$PATH"
 export PYTHONDONTWRITEBYTECODE=1
+export AWS_PAGER=""
 
 ## Add Krew PATH
 export PATH=${KREW_ROOT:-$HOME/.krew}/bin:$PATH
@@ -177,3 +177,6 @@ export PATH=/SnowflakeCLI.app/Contents/MacOS/:$PATH
 ####################################################
 printf "\n.zshrc loaded in %.3f seconds\n" \
   "$(echo "$EPOCHREALTIME - $ZSH_START_TIME" | bc)"
+
+# Added by jcode installer
+export PATH="/Users/jlim/.local/bin:$PATH"
