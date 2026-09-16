@@ -76,10 +76,28 @@ setup_ohmyzsh() {
 
 setup_brew_install() {
   export HOMEBREW_BUNDLE_FILE=${HOMEBREW_BUNDLE_FILE:-${HOME}/.dotfiles/Brewfile}
+  brew trust hashicorp/tap
   brew bundle
   ln -sf ${HOME}/.dotfiles/ghostty ${HOME}/.config
   ln -sf ${HOME}/.dotfiles/starship ${HOME}/.config
   ln -sf ${HOME}/.dotfiles/harlequin ${HOME}/.config
+  ln -sf ${HOME}/.dotfiles/hedr ${HOME}/.config
+}
+
+setup_gitconfig() {
+  case "$(uname -s)" in
+    Darwin)
+      git config --global credential.helper osxkeychain
+      git config --global user.email jlim@interos.ai
+      echo "Configured Git to use macOS Keychain"
+      ;;
+    *)
+      git config --global credential.helper store
+      git config --global user.email josephlim@as3tech.com
+      echo "Configured Git to use credential store"
+      ;;
+  esac
+  git config --global user.name "Joseph Lim"
 }
 
 main() {
@@ -89,6 +107,7 @@ main() {
   setup_brew_cli
   setup_screenlock
   setup_ohmyzsh
+  setup_gitconfig
   setup_brew_install
 }
 

@@ -164,7 +164,8 @@ alias assume='source $(asdf which assume)'
 # Lazy-load mise on first use
 mise() {
   unset -f mise
-  eval "$($HOME/.local/bin/mise activate zsh)"
+  HOMEBREW_PATH=$(brew --prefix)
+  eval "$($HOMEBREW_PATH/bin/mise activate zsh)"
   mise "$@"
 }
 

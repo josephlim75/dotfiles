@@ -1,6 +1,6 @@
 tap "hashicorp/tap"
 
-brew "tmux"
+brew "herdr"
 brew "neovim"
 brew "starship"
 brew "direnv"
