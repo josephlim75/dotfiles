@@ -20,6 +20,23 @@ setup_init() {
   mkdir -p "${HOME}/.config"
 }
 
+setup_beyondcompare() {
+  # TODO beyond compare
+  # rename BCompare BCompare.exe
+  # ln -sf $HOME/.dotfiles/bcompare/BCompare /Application/Beyond Compare.app/Content/MacOS
+
+  # ASDF
+  # mkdir -p "${ASDF_DATA_DIR:-$HOME/.asdf}/completions"
+  # asdf completion zsh > "${ASDF_DATA_DIR:-$HOME/.asdf}/completions/_asdf"
+
+  #echo "source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> $HOME/.zshrc
+  #echo "source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+
+  # Git 
+  #git config --global core.editor "code --wait"
+  true
+}
+
 setup_passwordless() {
   # Set passwordless sudo
   USER_NAME=$(whoami)
