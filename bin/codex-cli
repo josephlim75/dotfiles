@@ -1,0 +1,33 @@
+#!/bin/bash
+
+########################################################
+# CONFIGURATION
+#   mkdir -p ~/.codex && nano ~/.codex/config.toml
+#   [default]
+#   The primary engine Codex will use for commands
+#   model = "gpt-6-astra"
+#
+#   [approval]
+#   Disables all interactive prompt confirmations for file operations and scripts
+#   mode = "never"
+#
+#   [security]
+#   Isolates the AI's execution scope tightly inside your active project folder
+#   sandbox = "workspace-write"
+#
+# Add token key
+# printenv OPENAI_API_KEY | codex login --with-api-key
+# codex login status
+# Location Path: ~/.codex/auth.json (or %USERPROFILE%\.codex\auth.json on Windows)
+#########################################################
+
+#| Model Name | Codex CLI Model String | Input Price (per 1M tokens) | Output Price (per 1M tokens) | Short Description |
+#| :--- | :--- | :--- | :--- | :--- |
+#| **GPT-6 Astra** | `gpt-6-astra` | *\$10.00* | *\$60.00* | Flagship tier. Built for complex, autonomous multi-step software engineering and cyber workflows. |
+#| **GPT-5.6 Sol** | `gpt-5.6-sol` | *\$4.00* | *\$30.00* | Advanced engineering model specializing in deep contextual codebase analysis and debugging. |
+#| **GPT-5.6 Terra** | `gpt-5.6-terra` | *\$2.00* | *\$18.00* | A balanced option for standard daily scripts, refactoring, and code generation. |
+#| **GPT-5.6 Luna** | `gpt-5.6-luna` | *\$0.20* | *\$1.80* | Extremely lightweight and affordable for rapid text processing and simple structural fixes. |
+#| **Codex Mini Latest** | `codex-mini-latest` | *\$1.50* | *\$6.00* | The default terminal companion engine optimized specifically for low-latency Codex CLI agent tools. |
+
+
+codex --model "gpt-4o" --ask-for-approval never --sandbox workspace-write

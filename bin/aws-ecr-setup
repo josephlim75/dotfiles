@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+############################################
+# TEST docker-credential
+#   export AWS_PROFILE="gov-stg"
+#   export AWS_REGION="us-gov-west-1"
+#   echo 378365008553.dkr.ecr.us-gov-west-1.amazonaws.com \
+#      | docker-credential-ecr-login get
+###########################################
+set -euo pipefail
+
+profiles=(
+  "gov-fedh"
+  "gov-stg"
+  "int-prod"
+  "int-shs"
+  "int-legacy-he"
+  "int-legacy-le"
+)
+
+mkdir -p "${HOME}/.local/bin"
+
+for profile in "${profiles[@]}"; do
+  helper="${HOME}/.local/bin/docker-credential-ecr-${profile}"
+  
+  case "${profile}" in
+    gov-*)
+      region="us-gov-west-1"
+      ;;
+    *)
+      region="us-east-1"
+      ;;
+  esac
+
+  cat > "${helper}" <<EOF
+#!/usr/bin/env bash
+
+export AWS_PROFILE="${profile}"
+export AWS_REGION="${region}"
+interos ecr "\$@"
+EOF
+
+  if ! bash -n "${helper}"; then
+    echo "Syntax error in ${helper}" >&2
+    exit 1
+  fi
+
+  chmod +x "${helper}"
+  echo "Created ${helper} (${region})"
+done
+
+rehash 2>/dev/null || true
+hash -r 2>/dev/null || true

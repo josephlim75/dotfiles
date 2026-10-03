@@ -144,6 +144,9 @@ export AWS_PAGER=""
 ## Add Krew PATH
 export PATH=${KREW_ROOT:-$HOME/.krew}/bin:$PATH
 
+## Add Helm registry config, otherwise, it will not look for .docker/config.json
+export HELM_REGISTRY_CONFIG="${HELM_REGISTRY_CONFIG:-$HOME/.docker/config.json}"
+
 ## ASDF 0.15.0 configuration
 export ASDF_DIR=$HOME/.asdf
 #. "$HOME/.asdf/asdf.sh"
