@@ -18,6 +18,12 @@ require_cmds() {
 
 setup_init() {
   mkdir -p "${HOME}/.config"
+  case "$(uname -s)" in
+    Linux*)               OS_TYPE="linux";;
+    Darwin*)              OS_TYPE="macos";;
+    CYGWIN*|MINGW*|MSYS*) OS_TYPE="wsl";;
+    *)                    OS_TYPE="unknown";;
+  esac
 }
 
 setup_beyondcompare() {
@@ -117,6 +123,18 @@ setup_gitconfig() {
   git config --global user.name "Joseph Lim"
 }
 
+setup_macos_wallpaper() {
+  case "${OS_TYPE}" in
+    macos)
+      if [[ -n "${DESKTOP_WALPAPER_PATH}" ]]; then
+        automator -i "${DESKTOP_WALPAPER_PATH}" $HOME/Desktop/setDesktopPix.workflow
+      fi
+      # Set macOS wallpaper here
+      ;;
+    *);;
+  esac
+}
+
 main() {
   setup_init
   setup_passwordless
@@ -126,6 +144,7 @@ main() {
   setup_ohmyzsh
   setup_gitconfig
   setup_brew_install
+  setup_macos_wallpaper
 }
 
 main "$@"

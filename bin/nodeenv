@@ -5,6 +5,7 @@
 PROJECT_VENV="$HOME/.cache/nodevenv"
 PROJECT_PATH="$(realpath "$PWD")"
 PROJECT_NAME="$(basename "$PROJECT_PATH")"
+NPMRC_FILE=".npmrc"
 
 if command -v shasum >/dev/null 2>&1; then
   HASH="$(printf '%s' "$PROJECT_PATH" | shasum | awk '{print $1}' | cut -c1-8)"
@@ -31,5 +32,18 @@ NODEVENV="${PROJECT_NAME}-${HASH}"
 NODEVENV_DIR="${PROJECT_VENV}/${NODEVENV}"
 
 mkdir -p ${NODEVENV_DIR}
-ln -sf ${NODEVENV_DIR} ./node_modules
+touch "$NPMRC_FILE"
+
+CONFIG_LINE="modules-dir=${NODEVENV_DIR}"
+# 3. Check if 'modules-dir' is already configured in .npmrc
+if grep -q "^modules-dir=" "$NPMRC_FILE"; then
+  echo "⚡ 'modules-dir' configuration already exists in $NPMRC_FILE."
+else
+  # Append the configuration if missing
+  echo "$CONFIG_LINE" >> "$NPMRC_FILE"
+  echo "Added 'modules-dir' configuration to $NPMRC_FILE."
+fi
+
+
+
 echo "Created node_modules at ${NODEVENV_DIR}"
