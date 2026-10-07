@@ -33,6 +33,7 @@ lineinfile() {
 #   listen_port = 5080
 #   enable_metrics = true
 #   EOF
+# blockinfile "/tmp/test.conf" < /path/to/my_config.conf
 #####################################
 blockinfile() {
   local target_file="$1"

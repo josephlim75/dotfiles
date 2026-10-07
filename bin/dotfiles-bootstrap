@@ -164,13 +164,19 @@ setup_macos() {
   esac
 }
 
+setup_codex_cli() {
+  if [[ -f "${HOME}/.codex/config.toml" ]]; then
+    blockinfile "${HOME}/.codex/config.toml" < "${HOME}/.dotfiles/codex/config"
+  fi
+}
+
+post_message() {
+
+}
+
 setup_installers() {
   require_cmd "codex" || {
     curl -fsSL https://chatgpt.com/codex/install.sh | CODEX_NON_INTERACTIVE=1 sh
-#     blockinfile "/tmp/test.conf" << 'EOF'
-# testing one
-#   testing 2
-# EOF
   }
 
   require_cmd "pi" || {
@@ -198,6 +204,8 @@ main() {
   setup_brew_install
   setup_macos
   setup_granted
+  setup_codex_cli
+  post_message
 }
 
 main "$@"

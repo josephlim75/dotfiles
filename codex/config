@@ -1,0 +1,9 @@
+model = "gpt-5.6-terra"
+trust_level = "trusted"
+# The core dials to stop confirmation prompts:
+approval_policy = "never"
+#sandbox_mode = "workspace-write"
+sandbox_mode = "danger-full-access"
+
+[sandbox_workspace_write]
+network_access = true
