@@ -1,0 +1,4 @@
+# Export and Import VisualCode extensions
+code --list-extensions > extensions.txt
+
+cat extensions.txt | xargs -L 1 code --install-extension

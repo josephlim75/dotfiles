@@ -1,15 +1,53 @@
 {
-    "workbench.colorTheme": "Default Light Modern",
+    "terminal.integrated.fontFamily": "'MesloLGS Nerd Font', Menlo, Monaco, 'Courier New', monospace, 'Hack Nerd Font'",
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.external.osxExec": "Ghostty.app",
+    "terminal.integrated.enablePersistentSessions": false,
+    "workbench.colorTheme": "Bearded Theme Arc",
     "workbench.colorCustomizations": {
-        "terminal.background":"#2E3440",
+        "terminal.background":"#1a212f",
         "terminal.foreground":"#b6c6d6",
         "terminalCursor.background":"#D8DEE9",
         "terminalCursor.foreground":"#D8DEE9"
     },
-    "terminal.integrated.fontFamily": "Menlo, Monaco, 'Courier New', monospace, 'Hack Nerd Font'",
-    "terminal.integrated.defaultProfile.osx": "zsh",
-    "terminal.external.osxExec": "Ghostty.app",
     "editor.renderWhitespace": "all",
-    "editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace, 'Hack Nerd Font'",
-    "security.workspace.trust.untrustedFiles": "open"
+    "editor.fontFamily": "'MesloLGS Nerd Font', Menlo, Monaco, 'Courier New', monospace, 'Hack Nerd Font'",
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.detectIndentation": false,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "int-apps-stg-apps-gov-usw1.cluster-csfd8qlztk1u.us-gov-west-1.rds.amazonaws.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "App - Gov STG",
+            "database": "int_apps",
+            "username": "root"
+        },
+        {
+            "previewLimit": 50,
+            "server": "int-apps-stg-apps-gov-usw1.global-gutetfm3qnsa.global-us-gov.rds.amazonaws.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "Auth - Gov STG",
+            "username": "sys_auth_stage",
+            "database": "auth"
+        },
+        {
+            "previewLimit": 50,
+            "server": "int-apps-stg-apps-gov-usw1.global-gutetfm3qnsa.global-us-gov.rds.amazonaws.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "GovStg - Auth",
+            "database": "auth",
+            "password": "mW555zjXA7lt",
+            "username": "sys_auth_stage"
+        }
+    ],
+    "workbench.activityBar.location": "top",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "explorer.confirmDragAndDrop": false,
+    "claudeCode.preferredLocation": "panel",
+    "chat.viewSessions.orientation": "stacked"
 }

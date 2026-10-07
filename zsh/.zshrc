@@ -124,12 +124,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-## Aliases
-alias k="kubectl"
-alias kctx="kubectl ctx"
-alias kns="kubectl ns"
-alias ap="aws-profiles"
-
 ## Starship init
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 eval "$(starship init zsh)"
@@ -161,7 +155,7 @@ eval "$(direnv hook zsh)"
 #assume() {
 #  source "$(asdf which assume)"
 #}
-alias assume='source $(asdf which assume)'
+#alias assume='source $(asdf which assume)'
 #alias assume='source assume'
 
 # Lazy-load mise on first use
@@ -184,3 +178,6 @@ printf "\n.zshrc loaded in %.3f seconds\n" \
 
 # Added by jcode installer
 export PATH="/Users/jlim/.local/bin:$PATH"
+
+# Added for atuin
+eval "$(atuin init zsh 2>/dev/null)"

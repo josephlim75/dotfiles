@@ -1,0 +1,5 @@
+alias assume=". assume"
+alias k="kubectl"
+alias kctx="kubectl ctx"
+alias kns="kubectl ns"
+alias ap="aws-profiles"

@@ -13,37 +13,37 @@ AWS_PROFILES_CURRENT_MD5=$(md5sum ${HOME}/.aws/config | awk '{print $1}')
 mkdir -p ${AWS_PROFILES_DIR}
 
 escape_value() {
-    local text="$1"
-    echo "$text" | sed 's/"/\\"/g; s/\\/\\\\/g'
+  local text="$1"
+  echo "$text" | sed 's/"/\\"/g; s/\\/\\\\/g'
 }
 
 # Function to check if the application is running
 is_running() {
-    pgrep -x "$APP_NAME" > /dev/null
+  pgrep -x "$APP_NAME" > /dev/null
 }
 
 
 is_browser_running() {
-    if is_running; then
-        # Bring the application to the foreground
-        osascript -e "tell application \"$APP_NAME\" to activate" 2>/dev/null
-        sleep 1
-        osascript -e "tell application \"$APP_NAME\" to set frontmost to true"  2>/dev/null
-    else
-        # If the application is not running, launch it
-        open -a "$APP_NAME"
-        
-        # Wait until the application is running, with a timeout
-        SECONDS=0  # Reset the timer
-        while ! is_running; do
-            if [ "$SECONDS" -ge "$TIMEOUT" ]; then
-                echo "Timeout reached: $APP_NAME did not start in $TIMEOUT seconds."
-                exit 1  # Exit with an error code
-            fi
-            sleep 1  # Check every second
-        done
-    fi
-    sleep 1.5
+  if is_running; then
+    # Bring the application to the foreground
+    osascript -e "tell application \"$APP_NAME\" to activate" 2>/dev/null
+    sleep 1
+    osascript -e "tell application \"$APP_NAME\" to set frontmost to true"  2>/dev/null
+  else
+    # If the application is not running, launch it
+    open -a "$APP_NAME"
+    
+    # Wait until the application is running, with a timeout
+    SECONDS=0  # Reset the timer
+    while ! is_running; do
+      if [ "$SECONDS" -ge "$TIMEOUT" ]; then
+        echo "Timeout reached: $APP_NAME did not start in $TIMEOUT seconds."
+        exit 1  # Exit with an error code
+      fi
+      sleep 1  # Check every second
+    done
+  fi
+  sleep 1.5
 }
 
 # get_tabs() {
@@ -177,17 +177,17 @@ is_browser_running() {
 # }
 
 create_tab_within_space() {
-    local url="$1"
-    local space_id="$2"
-    osascript <<EOF
-    tell application "Arc"
-        tell front window
-            tell space ${space_id}
-                make new tab with properties {URL:"${url}"}
-            end tell
-        end tell
-        activate
+  local url="$1"
+  local space_id="$2"
+  osascript <<EOF
+  tell application "Arc"
+    tell front window
+      tell space ${space_id}
+        make new tab with properties {URL:"${url}"}
+      end tell
     end tell
+    activate
+  end tell
 EOF
 }
 
@@ -223,28 +223,28 @@ EOF
 
 
 get_spaces() {
-    osascript <<EOF
-    set _output to ""
+  osascript <<EOF
+  set _output to ""
 
-    tell application "Arc"
-        set _space_index to 1
+  tell application "Arc"
+    set _space_index to 1
 
-        repeat with _space in spaces of front window
-            set _title to get title of _space
+    repeat with _space in spaces of front window
+      set _title to get title of _space
 
-            set _output to (_output & "{ \"title\": \"" & _title & "\", \"id\": " & _space_index & " }")
+      set _output to (_output & "{ \"title\": \"" & _title & "\", \"id\": " & _space_index & " }")
 
-            if _space_index < (count spaces of front window) then
-                set _output to (_output & ",\\n")
-            else
-                set _output to (_output & "\\n")
-            end if
+      if _space_index < (count spaces of front window) then
+        set _output to (_output & ",\\n")
+      else
+        set _output to (_output & "\\n")
+      end if
 
-            set _space_index to _space_index + 1
-        end repeat
-    end tell
+      set _space_index to _space_index + 1
+    end repeat
+  end tell
 
-    return "[\\n" & _output & "\\n]"
+  return "[\\n" & _output & "\\n]"
 EOF
 }
 
@@ -259,8 +259,8 @@ EOF
 ARGS="$@"
 echo $ARGS
 if [[ "$ARGS" = "spaces ls" ]]; then
-    get_spaces
-    exit 0
+  get_spaces
+  exit 0
 fi
 
 
@@ -277,25 +277,22 @@ fi
 # { "title": "AWS int-ml-nonprod", "id": 13 }
 ## Key Mapping
 get_space_by_profile() {
-    local profile=$(echo $1 | tr '[:upper:]' '[:lower:]')
-    case "$profile" in
-        "int-clz-root") echo "3" ;;
-        "int-shs") echo "4" ;;
-        "int-dev") echo "5" ;;
-        "int-intg") echo "6" ;;
-        "int-stg") echo "7" ;;
-        "int-prod") echo "8" ;;
-        "interosle"|"int-legacy-le") echo "9" ;;
-        "interoshe"|"int-legacy-he") echo "10" ;;
-        "int-aft-management") echo "11" ;;
-        "int-ml-prod") echo "12" ;;
-        "int-ml-nonprod") echo "13" ;;
-        *) echo "Unknown mapping" ;;
-    esac
+  local profile=$(echo $1 | tr '[:upper:]' '[:lower:]')
+  case "$profile" in
+    "int-clz-root") echo "3" ;;
+    "int-shs") echo "4" ;;
+    "int-dev") echo "5" ;;
+    "int-intg") echo "6" ;;
+    "int-stg") echo "7" ;;
+    "int-prod") echo "8" ;;
+    "interosle"|"int-legacy-le") echo "9" ;;
+    "interoshe"|"int-legacy-he") echo "10" ;;
+    "int-aft-management") echo "11" ;;
+    "int-ml-prod") echo "12" ;;
+    "int-ml-nonprod") echo "13" ;;
+    *) echo "Unknown mapping" ;;
+  esac
 }
-
-
-
 
 
 if [[ "${AWS_PROFILES_PREVIOUS_MD5}" != "${AWS_PROFILES_CURRENT_MD5}" ]]; then
@@ -311,13 +308,13 @@ SELECTED_PROFILE=$(echo "$PROFILES" | fzf --header="Select an AWS Profile:" --he
 
 # Check if a profile was selected
 if [ -n "$SELECTED_PROFILE" ]; then
-    echo "You selected: $SELECTED_PROFILE"
-    # You can use the selected profile here, for example:
-    export AWS_PROFILE="$SELECTED_PROFILE"
-    echo "AWS profile set to $AWS_PROFILE"
+  echo "You selected: $SELECTED_PROFILE"
+  # You can use the selected profile here, for example:
+  export AWS_PROFILE="$SELECTED_PROFILE"
+  echo "AWS profile set to $AWS_PROFILE"
 else
-    echo "No profile selected."
-    exit 0
+  echo "No profile selected."
+  exit 0
 fi
 
 echo "Profile: $(get_space_by_profile "$AWS_PROFILE")"
