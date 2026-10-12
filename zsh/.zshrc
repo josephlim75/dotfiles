@@ -21,6 +21,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME=""
+ZLE_RPROMPT_INDENT=0
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -184,4 +185,4 @@ eval "$(atuin init zsh 2>/dev/null)"
 
 # Added by interos-cli setup
 ASDF_DIR="${HOME}/.asdf"
-PATH="${ASDF_DIR}/shims:${ASDF_DIR}/bin:${HOME}/.local/bin:${PATH}"
+PATH="${HOME}/.local/bin:${ASDF_DIR}/shims:${ASDF_DIR}/bin:${PATH}"
