@@ -163,3 +163,6 @@ format = '[ $time ]($style)'
 
 [status]
 disabled = false
+
+[aws]
+format = 'AWS [($profile )(\($region\) )]($style)'
