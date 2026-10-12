@@ -1,48 +1,81 @@
-######################################
-# Borrowed from : 
-# https://gist.github.com/kokumura/a6d819ddcb4efe54c5541fc15e1d0347
-######################################
+resolve_symlink_target() {
+  local src="$1" dir link
+
+  while [[ -L "$src" ]]; do
+    dir="$(cd -P "$(dirname "$src")" && pwd)" || return 1
+    link="$(readlink "$src")" || return 1
+
+    case "$link" in
+      /*) src="$link" ;;
+      *)  src="$dir/$link" ;;
+    esac
+  done
+
+  printf '%s\n' "$src"
+}
+
 lineinfile() {
-  if [[ $# != 3 ]]; then
-    return 1
-  fi
   local pattern="$1"
   local line="$2"
-  local filepath="$3"
-  local dir=$(dirname $filepath)
+  local file="$3"
+  local dir tmp
 
-  [[ ! -d "$dir" ]] && mkdir -p "$dir"
-  [[ ! -f "$filepath" ]] && touch "$filepath"
+  file="$(resolve_symlink_target "$file")" || return 1
 
-  if grep -E -q "${pattern}" "${filepath}" ;then
-    ## solution 1: works with GNU sed well, but not works with BSD sed.
-    #sed -E -i '' "/${pattern//\//\\/}/c${line}" "${filepath}"
-    ## solution 2: works with both (GNU|BSD) sed, but get useless *.bak file generated.
-    # sed -E -i.bak "/${pattern//\//\\/}/c\\"$'\n'"${line}" "${filepath}"
-    ## solution 3: give up to use sed, using perl instead.
-    pattern="${pattern}" line="${line}" perl -i -nle 'if(/$ENV{"pattern"}/){print $ENV{"line"}}else{print}' "${filepath}"
-  else
-    echo "$line" >> "$filepath"
-  fi
+  dir=$(dirname "$file")
+  [ -d "$dir" ] || mkdir -p "$dir"
+  [ -f "$file" ] || : > "$file"
+
+  tmp="${file}.$$"
+
+  awk -v pattern="$pattern" -v line="$line" '
+    $0 ~ pattern {
+      if (!done) {
+        print line
+        done = 1
+      }
+      next
+    }
+    { print }
+    END {
+      if (!done) {
+        print line
+      }
+    }
+  ' "$file" > "$tmp" && mv "$tmp" "$file"
 }
 
 ######################################
 # Usage:
-# Call the cross-platform function
+# Call the cross-platform function (prepend is the default)
 #   blockinfile "my_app.conf" << 'EOF'
 #   listen_port = 5080
 #   enable_metrics = true
 #   EOF
-# blockinfile "/tmp/test.conf" < /path/to/my_config.conf
+# Append instead:
+#   blockinfile "/tmp/test.conf" append < /path/to/my_config.conf
+# Use a custom comment marker:
+#   blockinfile "/tmp/test.conf" prepend ";" < /path/to/my_config.conf
+# Defaults can also be set with DOTFILES_BLKINFILE_PLACEMENT and
+# DOTFILES_BLKINFILE_MARKER; positional arguments take precedence.
 #####################################
 blockinfile() {
   local target_file="$1"
-  local comment_marker="${2:-#}"
+  local placement="${2:-${DOTFILES_BLKINFILE_PLACEMENT:-append}}"
+  local comment_marker="${3:-${DOTFILES_BLKINFILE_MARKER:-#}}"
   local start_marker="${comment_marker} BEGIN DOTFILES MANAGED BLOCK"
   local end_marker="${comment_marker} END DOTFILES MANAGED BLOCK"
   local tmp_file
 
-  tmp_file=$(mktemp)
+  target_file="$(resolve_symlink_target "$target_file")" || return 1
+
+  case "${placement}" in
+    prepend|append) ;;
+    *)
+      echo "blockinfile: placement must be 'prepend' or 'append'" >&2
+      return 1
+      ;;
+  esac
 
   # 1. Read multi-line block content from stdin
   local block_content
@@ -55,20 +88,32 @@ blockinfile() {
   # 3. Touch the file to guarantee it exists before reading/grepping
   touch "${target_file}"
 
-  # Cross-platform "sed -i" alternative: read to tmp, then replace the original file
+  # An existing managed block is left untouched.
   if grep -qF "${start_marker}" "${target_file}" 2>/dev/null; then
-    # Strips out any existing older blocks
-    sed "/${start_marker}/,/${end_marker}/d" "${target_file}" > "${tmp_file}"
-  else
-    cat "${target_file}" > "${tmp_file}"
+    return 0
   fi
 
-  # Append the managed block with your boundaries to the temporary staging file
-  {
-    echo "${start_marker}"
-    echo "${block_content}"
-    echo "${end_marker}"
-  } >> "${tmp_file}"
+  tmp_file=$(mktemp)
+
+  # Stage the new block in the requested position.
+  if [[ "${placement}" == "prepend" ]]; then
+    {
+      printf '%s\n' "${start_marker}"
+      printf '%s\n' "${block_content}"
+      printf '%s\n' "${end_marker}"
+      cat "${target_file}"
+    } > "${tmp_file}"
+  else
+    {
+      cat "${target_file}"
+      if [[ -s "${target_file}" && -n "$(tail -c 1 "${target_file}")" ]]; then
+        printf '\n'
+      fi
+      printf '%s\n' "${start_marker}"
+      printf '%s\n' "${block_content}"
+      printf '%s\n' "${end_marker}"
+    } > "${tmp_file}"
+  fi
 
   # Move the finalized content safely over the target file
   mv "${tmp_file}" "${target_file}"

@@ -10,6 +10,7 @@
         "terminalCursor.background":"#D8DEE9",
         "terminalCursor.foreground":"#D8DEE9"
     },
+    "window.zoomLevel": 1,
     "editor.renderWhitespace": "all",
     "editor.fontFamily": "'MesloLGS Nerd Font', Menlo, Monaco, 'Courier New', monospace, 'Hack Nerd Font'",
     "security.workspace.trust.untrustedFiles": "open",

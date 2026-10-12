@@ -181,3 +181,7 @@ export PATH="/Users/jlim/.local/bin:$PATH"
 
 # Added for atuin
 eval "$(atuin init zsh 2>/dev/null)"
+
+# Added by interos-cli setup
+ASDF_DIR="${HOME}/.asdf"
+PATH="${ASDF_DIR}/shims:${ASDF_DIR}/bin:${HOME}/.local/bin:${PATH}"

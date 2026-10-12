@@ -20,7 +20,7 @@ require_cmds() {
 
 
 setup_init() {
-  brew update && brew upgrade
+  brew update && brew upgrade --yes
 
   mkdir -p "${HOME}/.config"
   case "$(uname -s)" in
@@ -161,6 +161,8 @@ setup_macos() {
       fi
       # Use predefined visualcode USER settings.json
       cp -rf "$HOME/.dotfiles/vscode/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
+      # Set default browser to arc
+      open -a "Arc" --args --make-default-browser
       ;;
     *);;
   esac
@@ -168,7 +170,7 @@ setup_macos() {
 
 setup_codex_cli() {
   if [[ -f "${HOME}/.codex/config.toml" ]]; then
-    blockinfile "${HOME}/.codex/config.toml" < "${HOME}/.dotfiles/codex/config"
+    blockinfile "${HOME}/.codex/config.toml" "prepend" < "${HOME}/.dotfiles/codex/config"
   fi
 }
 
