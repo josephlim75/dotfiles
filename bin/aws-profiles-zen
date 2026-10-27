@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+# Select an AWS profile, mint its Granted SSO URL, and open it in the matching
+# Zen Space. Assign the matching Firefox Container as each Space's default in
+# Zen; Zen then opens this tab in that container.
+
+ZEN_BIN="${ZEN_BIN:-/Applications/Zen.app/Contents/MacOS/zen}"
+AWS_PROFILES_DIR="${HOME}/.granted"
+AWS_CONFIG="${HOME}/.aws/config"
+
+get_space_by_profile() {
+  local profile
+  profile=$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')
+
+  case "$profile" in
+    gov-*) echo "AWS GOV" ;;
+    *-le-*|*-legacy-*) echo "AWS LEGACY" ;;
+    *) echo "AWS CLZ" ;;
+  esac
+}
+
+if [[ ! -x "$ZEN_BIN" ]]; then
+  echo "Zen executable not found: $ZEN_BIN" >&2
+  exit 1
+fi
+
+mkdir -p "$AWS_PROFILES_DIR"
+previous_md5=$(cat "$AWS_PROFILES_DIR/aws_config_md5" 2>/dev/null)
+current_md5=$(md5sum "$AWS_CONFIG" | awk '{print $1}')
+
+if [[ "$previous_md5" != "$current_md5" || ! -f "$AWS_PROFILES_DIR/aws_profiles_list" ]]; then
+  profiles=$(aws configure list-profiles) || exit 1
+  printf '%s\n' "$profiles" > "$AWS_PROFILES_DIR/aws_profiles_list"
+  printf '%s\n' "$current_md5" > "$AWS_PROFILES_DIR/aws_config_md5"
+else
+  profiles=$(<"$AWS_PROFILES_DIR/aws_profiles_list")
+fi
+
+selected_profile=$(printf '%s\n' "$profiles" | fzf --header="Select an AWS Profile:" --height=50% --min-height=10)
+if [[ -z "$selected_profile" ]]; then
+  echo "No profile selected."
+  exit 0
+fi
+
+# if ! zen_space=$(get_space_by_profile "$selected_profile"); then
+#   echo "No Zen Space mapping for AWS profile: $selected_profile" >&2
+#   exit 1
+# fi
+
+zen_space=$(get_space_by_profile "$selected_profile")
+echo "You selected: $selected_profile"
+echo "Zen Space: $zen_space"
+
+# Suppresses Granted's .zshenv warning: https://github.com/common-fate/granted/issues/592
+export GRANTED_ALIAS_CONFIGURED="true"
+assume "$selected_profile" --export-sso-token || exit 1
+sign_in_url=$(assume "$selected_profile" -u) || exit 1
+
+# --space switches to the named Zen Space and opens the URL there. The Space's
+# default container must be configured in Zen for the AWS session to be isolated.
+exec "$ZEN_BIN" --space "$zen_space" "$sign_in_url"

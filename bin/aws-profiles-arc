@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Define the application you want to focus on
-APP_NAME="Arc"  # Change this to your desired application
+APP_NAME="Zen"  # Change this to your desired application
 TIMEOUT=20      # Maximum wait time in seconds
 ## Caching will speed up profile loading by caching profiles and only loading them through AWS commands 
 ## when there are differences in their file checksums.
@@ -180,7 +180,7 @@ create_tab_within_space() {
   local url="$1"
   local space_id="$2"
   osascript <<EOF
-  tell application "Arc"
+  tell application "${APP_NAME}"
     tell front window
       tell space ${space_id}
         make new tab with properties {URL:"${url}"}
@@ -226,7 +226,7 @@ get_spaces() {
   osascript <<EOF
   set _output to ""
 
-  tell application "Arc"
+  tell application "${APP_NAME}"
     set _space_index to 1
 
     repeat with _space in spaces of front window

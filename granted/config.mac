@@ -1,5 +1,5 @@
-DefaultBrowser = "STDOUT"
-CustomBrowserPath = ""
+DefaultBrowser = "ZEN"
+CustomBrowserPath = "/Applications/Zen.app/Contents/MacOS/zen"
 CustomSSOBrowserPath = ""
 Ordering = ""
 ExportCredentialSuffix = ""
