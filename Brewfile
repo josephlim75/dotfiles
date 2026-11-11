@@ -1,4 +1,6 @@
-tap "hashicorp/tap"
+tap "hashicorp/tap", trusted: true
+tap "anomalyco/tap", trusted: true
+tap "atlassian/homebrew-acli", trusted: true
 
 brew "herdr"
 brew "neovim"
@@ -7,6 +9,7 @@ brew "direnv"
 brew "mise"
 brew "atuin"
 brew "granted"
+brew "acli"
 
 # Required by python
 brew "openssl@3" 
@@ -16,10 +19,10 @@ brew "xz"
 brew "zlib"
 brew "tcl-tk"
 brew "gdbm"
+brew "anomalyco/tap/opencode-v2"
 
 # brew "docker-credential-helper-ecr"
 cask "ghostty"
-cask "arc"
 cask "beyond-compare"
 #cask "docker-desktop"
 cask "visual-studio-code"
@@ -28,4 +31,4 @@ cask "chatgpt"
 cask "claude"
 cask "vorssaint"
 cask "stablyai/orca/orca"
-cask "zen-browser"
+cask "zen"
